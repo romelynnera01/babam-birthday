@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Confetti Library -->
+  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -18,9 +18,8 @@
 </head>
 <body class="bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 min-h-screen flex items-center justify-center p-4">
 
-  <!-- Cheerful Instrumental Birthday Music -->
-  <!-- Cheerful Instrumental Birthday Music -->
-  <audio id="bgMusic" autoplay loop muted playsinline>
+  <!-- Background Music (mobile-safe) -->
+  <audio id="bgMusic" loop playsinline>
     <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_1c3a3f0f7b.mp3" type="audio/mpeg">
   </audio>
 
@@ -36,48 +35,46 @@
       <p id="countdown" class="text-xl mt-2"></p>
     </div>
 
-    <!-- Reveal Button -->
-    <button id="revealBtn" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg transition">
-      Tap to See Your Birthday Plan 🎁
+    <!-- Main Button -->
+    <button id="startBtn" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg transition">
+      Tap to Start Your Birthday Surprise 🎁
     </button>
 
-    <!-- Hidden Content -->
-    <div id="details" class="hidden mt-8">
-
-      <!-- Lunch -->
-      <div class="bg-pink-50 rounded-2xl p-6 mb-6">
-        <h2 class="text-2xl font-semibold text-pink-600 mb-2">🍽 Lunch Date</h2>
-        <p class="text-lg font-medium">10:30 AM – 2:30 PM</p>
-        <p class="mt-2">📍 <strong>FOOD CLUB BUFFET</strong><br>Ayala Malls Manila Bay</p>
-      </div>
-
-      <!-- After Lunch -->
-      <div class="bg-purple-50 rounded-2xl p-6 mb-6">
-        <h2 class="text-2xl font-semibold text-purple-600 mb-4">🎬 After Lunch Fun</h2>
-        <p class="mb-3">Choose your adventure:</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button onclick="selectActivity('Movie Night 🎥')" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full">🎥 Watch a Movie</button>
-          <button onclick="selectActivity('Skating ⛸')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">⛸ Try Skating</button>
-        </div>
-        <p id="activityResult" class="mt-4 font-medium"></p>
-      </div>
-
-      <!-- Going Home -->
-      <div class="bg-yellow-50 rounded-2xl p-6 mb-6">
-        <h2 class="text-2xl font-semibold text-yellow-600 mb-2">🎁 Going Home</h2>
-        <p class="text-lg">Receive Gifts, Hugs & Lots of Love 💖</p>
-      </div>
-
-      <!-- RSVP -->
-      <div class="bg-green-50 rounded-2xl p-6">
-        <h2 class="text-2xl font-semibold text-green-600 mb-3">✅ RSVP</h2>
-        <button onclick="rsvp(true)" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full mr-2">Yes, I'm Coming! 🎉</button>
-        <button onclick="rsvp(false)" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-full">I’ll be late 😅</button>
-        <p id="rsvpResult" class="mt-3 font-medium"></p>
-      </div>
-
-      <p class="mt-8 text-sm text-gray-500">Can’t wait to celebrate your special day, Babam 💕</p>
+    <!-- STEP 1: Lunch -->
+    <div id="step1" class="hidden mt-8 bg-pink-50 rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-pink-600 mb-2">🍽 Lunch Date</h2>
+      <p class="text-lg font-medium">10:30 AM – 2:30 PM</p>
+      <p class="mt-2">📍 <strong>FOOD CLUB BUFFET</strong><br>Ayala Malls Manila Bay</p>
+      <button class="nextBtn mt-4 bg-pink-500 text-white px-4 py-2 rounded-full">Next ➡️</button>
     </div>
+
+    <!-- STEP 2: After Lunch -->
+    <div id="step2" class="hidden mt-8 bg-purple-50 rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-purple-600 mb-4">🎬 After Lunch Fun</h2>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-3">
+        <button onclick="selectActivity('Movie Night 🎥')" class="bg-purple-500 text-white px-4 py-2 rounded-full">🎥 Watch a Movie</button>
+        <button onclick="selectActivity('Skating ⛸')" class="bg-blue-500 text-white px-4 py-2 rounded-full">⛸ Try Skating</button>
+      </div>
+      <p id="activityResult" class="font-medium mb-4"></p>
+      <button class="nextBtn bg-purple-500 text-white px-4 py-2 rounded-full">Next ➡️</button>
+    </div>
+
+    <!-- STEP 3: Going Home -->
+    <div id="step3" class="hidden mt-8 bg-yellow-50 rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-yellow-600 mb-2">🎁 Going Home</h2>
+      <p class="text-lg">Receive Gifts, Hugs & Lots of Love 💖</p>
+      <button class="nextBtn mt-4 bg-yellow-500 text-white px-4 py-2 rounded-full">Next ➡️</button>
+    </div>
+
+    <!-- STEP 4: RSVP -->
+    <div id="step4" class="hidden mt-8 bg-green-50 rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-green-600 mb-3">✅ RSVP</h2>
+      <button onclick="rsvp(true)" class="bg-green-500 text-white px-4 py-2 rounded-full mr-2">Yes, I'm Coming! 🎉</button>
+      <button onclick="rsvp(false)" class="bg-gray-400 text-white px-4 py-2 rounded-full">I’ll be late 😅</button>
+      <p id="rsvpResult" class="mt-3 font-medium"></p>
+      <p class="mt-6 text-sm text-gray-500">Can’t wait to celebrate your special day, Babam 💕</p>
+    </div>
+
   </div>
 
   <script>
@@ -102,17 +99,24 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('revealBtn');
-      const details = document.getElementById('details');
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+    let currentStep = 0;
+
+    document.getElementById('startBtn').addEventListener('click', () => {
       const music = document.getElementById('bgMusic');
+      music.play().catch(() => {}); // REQUIRED user interaction
 
+      document.getElementById(steps[currentStep]).classList.remove('hidden');
+      confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+    });
+
+    document.querySelectorAll('.nextBtn').forEach(btn => {
       btn.addEventListener('click', () => {
-        details.classList.remove('hidden');
-        music.muted = false;
-        music.play().catch(() => {});
-
-        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+        document.getElementById(steps[currentStep]).classList.add('hidden');
+        currentStep++;
+        if (steps[currentStep]) {
+          document.getElementById(steps[currentStep]).classList.remove('hidden');
+        }
       });
     });
 
