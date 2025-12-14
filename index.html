@@ -37,7 +37,7 @@
     </div>
 
     <!-- Reveal Button -->
-    <button onclick="startSurprise()" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg transition">
+    <button id="revealBtn" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg transition">
       Tap to See Your Birthday Plan 🎁
     </button>
 
@@ -102,16 +102,19 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    function startSurprise() {
-      document.getElementById('details').classList.remove('hidden');
-
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('revealBtn');
+      const details = document.getElementById('details');
       const music = document.getElementById('bgMusic');
-      music.muted = false; // unmute after interaction
-      music.play();
 
-      confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
-    } });
-    }
+      btn.addEventListener('click', () => {
+        details.classList.remove('hidden');
+        music.muted = false;
+        music.play().catch(() => {});
+
+        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+      });
+    });
 
     function selectActivity(choice) {
       document.getElementById('activityResult').textContent = `✨ You chose: ${choice}!`;
