@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Babam's Birthday Surprise 🎉</title>
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 min-h-screen flex items-center justify-center p-4">
+
+  <!-- Cheerful Instrumental Birthday Music -->
+  <!-- Cheerful Instrumental Birthday Music -->
+  <audio id="bgMusic" autoplay loop muted playsinline>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_1c3a3f0f7b.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl max-w-xl w-full p-8 text-center">
+
+    <!-- Header -->
+    <h1 class="text-4xl font-bold text-pink-600 mb-2">🎂 Surprise, Babam! 🎂</h1>
+    <p class="text-gray-600 mb-4">This day is all about <span class="font-semibold text-purple-600">YOU</span></p>
+
+    <!-- Countdown -->
+    <div class="bg-purple-50 rounded-2xl p-4 mb-6">
+      <p class="font-semibold text-purple-700">⏳ Countdown to your Birthday</p>
+      <p id="countdown" class="text-xl mt-2"></p>
+    </div>
+
+    <!-- Reveal Button -->
+    <button onclick="startSurprise()" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg transition">
+      Tap to See Your Birthday Plan 🎁
+    </button>
+
+    <!-- Hidden Content -->
+    <div id="details" class="hidden mt-8">
+
+      <!-- Lunch -->
+      <div class="bg-pink-50 rounded-2xl p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-pink-600 mb-2">🍽 Lunch Date</h2>
+        <p class="text-lg font-medium">10:30 AM – 2:30 PM</p>
+        <p class="mt-2">📍 <strong>FOOD CLUB BUFFET</strong><br>Ayala Malls Manila Bay</p>
+      </div>
+
+      <!-- After Lunch -->
+      <div class="bg-purple-50 rounded-2xl p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-purple-600 mb-4">🎬 After Lunch Fun</h2>
+        <p class="mb-3">Choose your adventure:</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="selectActivity('Movie Night 🎥')" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full">🎥 Watch a Movie</button>
+          <button onclick="selectActivity('Skating ⛸')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">⛸ Try Skating</button>
+        </div>
+        <p id="activityResult" class="mt-4 font-medium"></p>
+      </div>
+
+      <!-- Going Home -->
+      <div class="bg-yellow-50 rounded-2xl p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-yellow-600 mb-2">🎁 Going Home</h2>
+        <p class="text-lg">Receive Gifts, Hugs & Lots of Love 💖</p>
+      </div>
+
+      <!-- RSVP -->
+      <div class="bg-green-50 rounded-2xl p-6">
+        <h2 class="text-2xl font-semibold text-green-600 mb-3">✅ RSVP</h2>
+        <button onclick="rsvp(true)" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full mr-2">Yes, I'm Coming! 🎉</button>
+        <button onclick="rsvp(false)" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-full">I’ll be late 😅</button>
+        <p id="rsvpResult" class="mt-3 font-medium"></p>
+      </div>
+
+      <p class="mt-8 text-sm text-gray-500">Can’t wait to celebrate your special day, Babam 💕</p>
+    </div>
+  </div>
+
+  <script>
+    const birthday = new Date('December 15, 2025 00:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = birthday - now;
+
+      if (distance < 0) {
+        document.getElementById('countdown').innerHTML = '🎉 Happy Birthday Babam! 🎉';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+      document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    function startSurprise() {
+      document.getElementById('details').classList.remove('hidden');
+
+      const music = document.getElementById('bgMusic');
+      music.muted = false; // unmute after interaction
+      music.play();
+
+      confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+    } });
+    }
+
+    function selectActivity(choice) {
+      document.getElementById('activityResult').textContent = `✨ You chose: ${choice}!`;
+    }
+
+    function rsvp(answer) {
+      document.getElementById('rsvpResult').textContent = answer
+        ? '💖 Yay! See you there, Birthday Star!'
+        : '👍 No worries! We’ll wait for you.';
+    }
+  </script>
+
+</body>
+</html>
