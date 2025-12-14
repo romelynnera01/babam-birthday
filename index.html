@@ -46,7 +46,7 @@
 
     <!-- Main Button -->
     <button id="startBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg transition">
-      Tap to Start Your Birthday Surprise 🎁
+      Tap to See Your Birthday Plan 🎁
     </button>
 
     <!-- STEP 1: Lunch -->
@@ -92,58 +92,58 @@
   </div>
 
   <script>
-    const birthday = new Date('December 15, 2025 00:00:00').getTime();
+    document.addEventListener('DOMContentLoaded', () => {
+      const birthday = new Date('December 15, 2025 00:00:00').getTime();
+      const countdownEl = document.getElementById('countdown');
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = birthday - now;
-
-      if (distance < 0) {
-        document.getElementById('countdown').innerHTML = '🎉 Happy Birthday Babam! 🎉';
-        return;
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = birthday - now;
+        if (distance < 0) {
+          countdownEl.innerHTML = '🎉 Happy Birthday Babam! 🎉';
+          return;
+        }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m`;
       }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
 
-      document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m`;
-    }
+      const steps = ['step1', 'step2', 'step3', 'step4'];
+      let currentStep = 0;
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+      function showStep(stepId) {
+        const step = document.getElementById(stepId);
+        step.classList.remove('hidden');
+        setTimeout(() => step.classList.add('show'), 50);
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+      }
 
-    const steps = ['step1', 'step2', 'step3', 'step4'];
-    let currentStep = 0;
-
-    function showStep(stepId) {
-      const step = document.getElementById(stepId);
-      step.classList.remove('hidden');
-      setTimeout(() => step.classList.add('show'), 50);
-      confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    }
-
-    document.getElementById('startBtn').addEventListener('click', () => {
-      const music = document.getElementById('bgMusic');
-      music.play().catch(() => {}); // user interaction required
-      showStep(steps[currentStep]);
-    });
-
-    document.querySelectorAll('.nextBtn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const step = document.getElementById(steps[currentStep]);
-        step.classList.remove('show');
-        setTimeout(() => step.classList.add('hidden'), 300);
-        currentStep++;
-        if (steps[currentStep]) showStep(steps[currentStep]);
+      document.getElementById('startBtn').addEventListener('click', () => {
+        const music = document.getElementById('bgMusic');
+        music.play().catch(() => {}); // required for mobile autoplay
+        showStep(steps[currentStep]);
       });
-    });
 
-    function rsvp(answer) {
-      document.getElementById('rsvpResult').textContent = answer
-        ? '💖 Yay! See you there, Birthday Star!'
-        : '👍 No worries! I'll wait for you.';
-    }
+      document.querySelectorAll('.nextBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const step = document.getElementById(steps[currentStep]);
+          step.classList.remove('show');
+          setTimeout(() => step.classList.add('hidden'), 300);
+          currentStep++;
+          if (steps[currentStep]) showStep(steps[currentStep]);
+        });
+      });
+
+      window.rsvp = function(answer) {
+        document.getElementById('rsvpResult').textContent = answer
+          ? '💖 Yay! See you there, Birthday Star!'
+          : '👍 No worries! I'll wait for you.';
+      };
+    });
   </script>
 
 </body>
